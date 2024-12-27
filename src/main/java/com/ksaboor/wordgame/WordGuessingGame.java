@@ -27,7 +27,27 @@ public class WordGuessingGame {
         while (attempts > 0) {
             System.out.printf("You have %d attempts left.%n", attempts);
             System.out.print("Guess a letter: ");
-            attempts--;
+
+            char guess = scanner.nextLine().toLowerCase().charAt(0);
+
+            if (processGuess(guess)) {
+                System.out.printf("Correct!");
+            } else {
+                System.out.printf("That guess was incorrect!");
+                attempts--;
+            }
         }
+    }
+
+    private boolean processGuess(char letter) {
+        boolean letterFound = false;
+
+        for (int i = 0; i < wordToGuess.length(); i++) {
+            if (wordToGuess.charAt(i) == letter) {
+                guessedLetters[i] = letter;
+                letterFound = true;
+            }
+        }
+        return letterFound;
     }
 }

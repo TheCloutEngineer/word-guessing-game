@@ -10,7 +10,6 @@ public class Main {
         String[] easyWords = {"java", "programming", "class", "computer", "method", "loop"};
         String[] MediumWords = {"java", "programming", "class", "computer", "method", "loop"};
         String[] HardWords = {"java", "programming", "class", "computer", "method", "loop"};
-
         WordGuessingGame game = new WordGuessingGame(easyWords, 10);
         game.play();
         }
