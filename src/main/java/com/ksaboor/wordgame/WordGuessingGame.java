@@ -1,41 +1,50 @@
 package com.ksaboor.wordgame;
 
+import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
 
 public class WordGuessingGame {
 
-    private String wordToGuess;
-    private char[] guessedLetters;
+    private final String wordToGuess;
+    private final char[] guessedLetters;
     private int attempts;
+    public boolean userHasWon = false;
+
 
     public WordGuessingGame(String[] wordList, int maxAttempts) {
         Random random = new Random();
         this.wordToGuess = wordList[random.nextInt(wordList.length)];
         this.guessedLetters = new char[wordToGuess.length()];
-        this.attempts = 0;
-        for (int i = 0; i < this.guessedLetters.length; i++) {
-            this.guessedLetters[i] = '_';
-        }
+        Arrays.fill(this.guessedLetters, '_');
         this.attempts = maxAttempts;
     }
 
     public void play() {
-        System.out.println("This word is: " + wordToGuess);
         Scanner scanner = new Scanner(System.in);
 
-        while (attempts > 0) {
+        while (attempts > 0 && !userHasWon) {
+            displayState();
             System.out.printf("You have %d attempts left.%n", attempts);
             System.out.print("Guess a letter: ");
 
             char guess = scanner.nextLine().toLowerCase().charAt(0);
 
             if (processGuess(guess)) {
-                System.out.printf("Correct!");
+                System.out.println("Correct!");
+                if (new String(guessedLetters).equals(wordToGuess)) {
+                    System.out.println("You have guess the word! You Win");
+                    System.out.println("The word was: " + wordToGuess);
+                    userHasWon = true;
+                }
             } else {
-                System.out.printf("That guess was incorrect!");
+                System.out.println("That guess was incorrect!");
                 attempts--;
             }
+        }
+        if (!userHasWon) {
+            System.out.println("You are out of guesses. You lose!");
+            System.out.println("The word was: " + wordToGuess);
         }
     }
 
@@ -49,5 +58,9 @@ public class WordGuessingGame {
             }
         }
         return letterFound;
+    }
+
+    private void displayState() {
+        System.out.println("Guessed letter: " + new String(guessedLetters));
     }
 }
